@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Programa;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,14 @@ class ProgramaController extends Controller
      */
     public function index()
     {
-        return view('programa/programaIndex');
+        //Consulta a la base de datos con el Query Builder, lo recomendable es hacerlo mediante el modelo
+        // $programas = DB::table('programas')->get();
+
+        //Haciendo la consulta mediante el modelo
+        $programas = Programa::get();
+
+        //Pasamos la variable de la consulta en forma de cadena a la vista con el compact
+        return view('programa/programaIndex', compact('programas'));
     }
 
     /**
@@ -35,7 +43,8 @@ class ProgramaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Programa::create($request->all());
+        return redirect()->route('programa.index');
     }
 
     /**
@@ -46,7 +55,7 @@ class ProgramaController extends Controller
      */
     public function show(Programa $programa)
     {
-        return view('programa.programaShow');
+        return view('programa.programaShow', compact('programa'));
     }
 
     /**
@@ -57,7 +66,7 @@ class ProgramaController extends Controller
      */
     public function edit(Programa $programa)
     {
-        return view('programa/programaForm');
+        return view('programa/programaForm', compact('programa'));
     }
 
     /**
@@ -69,7 +78,8 @@ class ProgramaController extends Controller
      */
     public function update(Request $request, Programa $programa)
     {
-        //
+        Programa::where('id', $programa->id)->update($request->except('_token', '_method'));
+        return redirect()->route('programa.show', $programa);
     }
 
     /**
@@ -80,6 +90,7 @@ class ProgramaController extends Controller
      */
     public function destroy(Programa $programa)
     {
-        //
+        $programa->delete();
+        return redirect()->route('programa.index');
     }
 }
