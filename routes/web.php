@@ -14,6 +14,10 @@ use App\Http\Controllers\ProgramaController;
 |
 */
 
+Route::get('inicio', function() {
+    return view('inicio');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
