@@ -1,38 +1,40 @@
-@extends('layouts.temp')
+@extends('layouts.windmill')
 @section('contenido')
-    <h1>Detalle del programa</h1>
+<h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+    Detalle del programa
+</h4>
 
-    <p>
-        <a href="{{ route('programa.index') }}">Listado de programas</a>
-    </p>
+<div class="grid gap-6 mb-8 md:grid-cols-2">
+    <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+        <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
+            {{ $programa->nombre }}
+        </h4>
+        <p class="text-gray-600 dark:text-gray-400">
+            <ul>
+                <li>Calendario: {{ $programa->calendario }}</li>
+                <li>Dependencia: {{ $programa->dependencia }}</li>
+                <li>Titular: {{ $programa->titular }}</li>
+                <li>Folio: {{ $programa->folio }}</li><br>
+                <li>
+                    <form action="{{ route('programa.destroy', $programa) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                            type="submit">
+                            Eliminar programa
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </p>
+    </div>
+</div>
 
-    <table border='1'>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Calendario</th>
-                <th>Folio</th>
-                <th>Nombre</th>
-                <th>Dependencia</th>
-                <th>Titular</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ $programa->id }}</td>
-                <td>{{ $programa->calendario }}</td>
-                <td>{{ $programa->folio }}</td>
-                <td>{{ $programa->nombre }}</td>
-                <td>{{ $programa->dependencia }}</td>
-                <td>{{ $programa->titular }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <form action="{{ route('programa.destroy', $programa) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <input type="submit" value="Eliminar programa">
-    </form>
+<div class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+    <a class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+        href="{{ route('programa.index') }}">
+        Volver al listado
+    </a>
+</div>
 
 @endsection
