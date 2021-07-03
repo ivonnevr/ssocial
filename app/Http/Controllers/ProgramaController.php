@@ -51,6 +51,7 @@ class ProgramaController extends Controller
             'folio' => 'required|integer|min:1|unique:App\Models\Programa,folio',
             'calendario' => 'required|string|min:4|max:6',
         ]);
+        dd($request->user());
         Programa::create($request->all());
         return redirect()->route('programa.index');
     }
